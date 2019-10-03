@@ -1,9 +1,14 @@
 function getDogImage() {
   let input = document.getElementById("input").value;
   fetch(`https://dog.ceo/api/breed/${input}/images/random`)
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    })
     .then(responseJson => displayResults(responseJson))
-    .catch(error => alert(error + "dog not found"));
+    .catch(error => alert(error));
 }
 
 function displayResults(responseJson) {
